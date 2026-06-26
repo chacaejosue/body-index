@@ -38,8 +38,8 @@ Cuando se ejecuta, el programa genera una salida formateada limpia directamente 
 Clona este repositorio o descarga el archivo principal:
 
 ```bash
-git clone https://github.com/chacaejosue/analizador-bodyindex.git
-cd analizador-bodyindex
+git clone https://github.com/chacaejosue/body-index.git
+cd body-index
 ```
 
 Ejecuta el script desde tu terminal:
@@ -51,7 +51,7 @@ python src/analizador.py
 > En sistemas Unix/Linux, puede ser necesario usar:
 >
 > ```bash
-> python3 bodyindex.py
+> python3 src/analizador.py
 > ```
 
 ## Variables de entrada validadas
@@ -76,6 +76,6 @@ Este software está diseñado para proporcionar estimaciones aproximadas con fin
 
 ## Licencia
 
-Este proyecto está bajo la [Licencia MIT](LICENSE).
+Este proyecto está bajo la [Licencia MIT](./LICENSE).
 
 Eres libre de adaptarlo y usarlo en tus proyectos, siempre que respetes la nota de licencia original. Fue un gran ejercicio de práctica para mí, y espero que te sea igual de útil para aprender.
