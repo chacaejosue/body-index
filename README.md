@@ -56,17 +56,21 @@ body-index/
 │   └── page.tsx              # Dashboard interactivo en tiempo real
 │
 ├── assets/
-│   └── portada-body-index.svg # Banner vectorial optimizado (~3 KB)
+│   ├── logo-bodyindex-vector.svg # Isotipo oficial vectorial
+│   └── portada-body-index.svg    # Banner vectorial optimizado
 │
 ├── components/               # Componentes UI en React / Tailwind
 │   ├── Header.tsx            # Barra de navegación superior
-│   ├── CalculatorForm.tsx    # Formulario interactivo con sliders
-│   └── MetricsDisplay.tsx    # Tarjetas de resultados, gráficos y macros
+│   ├── CalculatorForm.tsx    # Formulario interactivo con sliders y steppers
+│   ├── MetricsDisplay.tsx    # Tarjetas de resultados, gráficos y macros
+│   ├── MetricsExplainer.tsx  # Acordeón explicativo de fundamentos fisiológicos
+│   └── ResultsReaderModal.tsx # Modal interpretativo con síntesis de voz
 │
-├── lib/                      # Lógica compartida y tipos TypeScript
-│   ├── calculator.ts         # Motor de cálculo client-side en tiempo real
+├── lib/                      # Lógica compartida y utilidades
+│   ├── calculator.ts         # Motor de cálculo client-side reactivo
+│   ├── exportReport.ts       # Exportación en alta resolución (A4 PDF y PNG)
 │   ├── supabase.ts           # Capa de persistencia preparada para Supabase
-│   └── types.ts              # Tipos estrictos
+│   └── types.ts              # Tipos estrictos TypeScript
 │
 ├── src/                      # Núcleo científico en Python
 │   ├── core/
@@ -108,11 +112,11 @@ body-index/
 # Instalar dependencias
 npm install
 
-# Iniciar servidor de desarrollo
+# Iniciar entorno de desarrollo híbrido (Next.js + Python FastAPI)
 npm run dev
 ```
 
-Abre en tu navegador [http://localhost:3000](http://localhost:3000) para acceder a la calculadora web interactiva.
+Abre en tu navegador [http://localhost:3000](http://localhost:3000) para acceder a la plataforma interactiva.
 
 ---
 
@@ -167,6 +171,18 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY="tu-anon-key"
 
 ---
 
+## Autor
+
+Desarrollado por **Josué Chacae**.
+
+<p>
+  <a href="https://github.com/chacaejosue">
+    <img src="https://img.shields.io/badge/GitHub-chacaejosue-181717?style=for-the-badge&logo=github" alt="GitHub">
+  </a>
+</p>
+
+---
+
 ## Licencia
 
-Distribuido bajo la [Licencia MIT](./LICENSE). Desarrollado por **Josué Chacae**.
+Este proyecto se distribuye bajo la [Licencia MIT](./LICENSE). Puedes utilizarlo, modificarlo y distribuirlo libremente respetando los términos establecidos en la misma.
