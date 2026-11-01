@@ -1,0 +1,31 @@
+{
+  "name": "body-index",
+  "version": "2.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently -k -n \"next,fastapi\" -c \"cyan,green\" \"next dev\" \"python -m uvicorn api.index:app --host 127.0.0.1 --port 8000 --reload\"",
+    "dev:frontend": "next dev",
+    "dev:python": "python -m uvicorn api.index:app --host 127.0.0.1 --port 8000 --reload",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.475.0",
+    "next": "^15.1.7",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tailwind-merge": "^3.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.4",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "autoprefixer": "^10.4.20",
+    "concurrently": "^10.0.6",
+    "postcss": "^8.5.2",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.7.3"
+  }
+}
