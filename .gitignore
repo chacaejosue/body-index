@@ -6,3 +6,11 @@ __pycache__/
 # Entornos virtuales
 venv/
 env/
+.venv/
+
+# Agentes de IA y configuración local
+.gemini/
+.agents/
+.agent/
+agents/
+*.agent
