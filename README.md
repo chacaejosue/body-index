@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./assets/portada-body-index.png" alt="BodyIndex - Analizador de métricas corporales en Python" width="100%">
+  <img src="./assets/portada-body-index.svg" alt="BodyIndex - Analizador de métricas corporales en Python" width="100%">
 </p>
 
 <p align="center">
@@ -145,7 +145,7 @@ La entrada correspondiente al sexo se procesa sin distinguir entre mayúsculas y
 ```text
 body-index/
 ├── assets/
-│   └── portada.png
+│   └── portada-body-index.svg
 │
 ├── src/
 │   └── analizador.py
