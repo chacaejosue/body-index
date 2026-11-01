@@ -1,239 +1,173 @@
 <p align="center">
-  <img src="./assets/portada-body-index.svg" alt="BodyIndex - Analizador de métricas corporales en Python" width="100%">
+  <img src="./assets/portada-body-index.svg" alt="BodyIndex - Plataforma Científica y Calculadora Metabólica" width="100%">
 </p>
 
 <p align="center">
-  Aplicación de consola desarrollada en Python para calcular y presentar estimaciones de <strong>IMC, TMB y gasto energético diario</strong> a partir de datos ingresados por el usuario.
+  Plataforma web moderna y suite en Python para el cálculo, análisis y estimación de <strong>IMC, Tasa Metabólica Basal (TMB), Gasto Energético Total (GET / TDEE) y Macronutrientes</strong> respaldados por la evidencia científica más reciente.
 </p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python 3.10+">
-  <img src="https://img.shields.io/badge/Interfaz-CLI-4B5563?style=for-the-badge" alt="CLI">
+  <img src="https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js&logoColor=white" alt="Next.js 15">
+  <img src="https://img.shields.io/badge/FastAPI-0.115%2B-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI">
+  <img src="https://img.shields.io/badge/TailwindCSS-3.4%2B-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS">
+  <img src="https://img.shields.io/badge/Despliegue-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Vercel">
   <img src="https://img.shields.io/badge/Licencia-MIT-F5B942?style=for-the-badge" alt="MIT License">
-  <img src="https://img.shields.io/badge/Estado-En%20desarrollo-8B5CF6?style=for-the-badge" alt="Estado">
 </p>
 
 ---
 
-## Sobre BodyIndex
+## Sobre BodyIndex v2
 
-**BodyIndex** es un proyecto educativo desarrollado en Python para practicar la implementación de cálculos, validación de datos, organización modular y manejo de errores mediante una aplicación de línea de comandos.
+**BodyIndex** ha evolucionado de un script de consola a una **plataforma científica completa y modular**. Integra un motor matemático riguroso en Python, una API REST con FastAPI, una aplicación web interactiva en Next.js con diseño responsivo a 60 fps y una interfaz de consola enriquecida.
 
-A partir de datos como edad, peso, estatura, sexo y nivel de actividad física, el programa calcula diferentes indicadores y estimaciones relacionadas con el cuerpo y el gasto energético.
+### Consensos y Ecuaciones Científicas Integradas
 
-Actualmente incluye:
-
-- **Índice de Masa Corporal (IMC)**
-- **Tasa Metabólica Basal (TMB)**
-- **Gasto Energético Total estimado (GET)**
-- Clasificación del IMC
-- Validación de datos de entrada
-- Generación de un reporte final en consola
+* **Índice de Masa Corporal (IMC):**
+  * **IMC Clásico (Quetelet - OMS):** Clasificación jerárquica oficial en 6 estratos de la OMS.
+  * **Nuevo IMC (Oxford 2013 - Nick Trefethen):** Corrección con exponente $2.5$ para personas altas y bajas.
+  * **Masa Grasa Relativa (RFM - Cedars-Sinai 2018):** Estimación de porcentaje de grasa basada en la relación estatura/cintura validada con absorciometría DEXA.
+  * **Índice Cintura-Estatura (WHtR):** Indicador universal de riesgo cardiometabólico y adiposidad visceral ($< 0.50$).
+* **Tasa Metabólica Basal (TMB / BMR):**
+  * **Mifflin-St Jeor (1990):** Ecuación de referencia para población general avalada por la *Academy of Nutrition and Dietetics*.
+  * **Katch-McArdle (1996):** Ecuación basada exclusivamente en masa libre de grasa (FFM / Tejido metabólicamente activo).
+  * **Oxford / Henry (FAO/OMS/UNU 2005):** Ecuaciones modernas por rangos de edad.
+* **Gasto Energético Total (GET / TDEE) y Nutrición:**
+  * Factores de actividad física **PAL (Physical Activity Level)** oficiales.
+  * Desglose fisiológico: TMB + Termogénesis de los Alimentos (**TEF**, ~10%) + Gasto de Actividad (**EAT + NEAT**).
+  * Ajuste de objetivos: Déficit moderado ($-15\%$), Déficit rápido ($-25\%$), Mantenimiento ($0\%$), Superávit limpio ($+10\%$) y Volumen ($+15\%$).
+  * Distribución de macronutrientes según guías de la **ISSN (International Society of Sports Nutrition)**.
 
 > [!IMPORTANT]
-> BodyIndex es un proyecto educativo. Sus resultados son estimaciones generales y no sustituyen una valoración médica, nutricional o clínica.
+> BodyIndex es un proyecto con fines educativos y cuantitativos. Sus estimaciones no sustituyen el diagnóstico, prescripción ni valoración personalizada de un profesional de la salud o la nutrición.
 
 ---
 
-## Inicio rápido
+## Estructura del Proyecto
+
+```text
+body-index/
+├── api/                      # Endpoints Serverless para Vercel
+│   └── index.py              # Aplicación FastAPI con OpenAPI/Swagger
+│
+├── app/                      # Frontend Web Next.js 15 (App Router)
+│   ├── globals.css           # Estilos Tailwind y gradientes de marca
+│   ├── layout.tsx            # Metadata y estructura base
+│   └── page.tsx              # Dashboard interactivo en tiempo real
+│
+├── assets/
+│   ├── logo-bodyindex-vector.svg # Isotipo oficial vectorial
+│   └── portada-body-index.svg    # Banner vectorial optimizado
+│
+├── components/               # Componentes UI en React / Tailwind
+│   ├── Header.tsx            # Barra de navegación superior
+│   ├── CalculatorForm.tsx    # Formulario interactivo con sliders y steppers
+│   ├── MetricsDisplay.tsx    # Tarjetas de resultados, gráficos y macros
+│   ├── MetricsExplainer.tsx  # Acordeón explicativo de fundamentos fisiológicos
+│   └── ResultsReaderModal.tsx # Modal interpretativo con síntesis de voz
+│
+├── lib/                      # Lógica compartida y utilidades
+│   ├── calculator.ts         # Motor de cálculo client-side reactivo
+│   ├── exportReport.ts       # Exportación en alta resolución (A4 PDF y PNG)
+│   ├── supabase.ts           # Capa de persistencia preparada para Supabase
+│   └── types.ts              # Tipos estrictos TypeScript
+│
+├── src/                      # Núcleo científico en Python
+│   ├── core/
+│   │   ├── __init__.py
+│   │   ├── models.py         # Modelos de datos y esquemas Pydantic v2
+│   │   ├── imc.py            # IMC, Trefethen, RFM y WHtR
+│   │   ├── tmb.py            # Mifflin-St Jeor, Katch-McArdle, Oxford
+│   │   ├── get.py            # TDEE, TEF y macronutrientes
+│   │   └── calculadora.py    # Fachada consolidada de cálculo
+│   └── analizador.py         # CLI interactiva de consola
+│
+├── tests/                    # Suite de pruebas unitarias (Pytest)
+│   ├── test_api.py           # Pruebas de endpoints FastAPI
+│   ├── test_calculadora.py   # Pruebas de integración del motor
+│   ├── test_get.py           # Pruebas de gasto energético y macros
+│   ├── test_imc.py           # Pruebas de IMC, RFM y WHtR
+│   └── test_tmb.py           # Pruebas de TMB y métodos
+│
+├── vercel.json               # Configuración de despliegue en Vercel
+├── requirements.txt          # Dependencias Python
+├── package.json              # Dependencias Node.js / Next.js
+└── README.md
+```
+
+---
+
+## Inicio Rápido
 
 ### Requisitos
 
-- Python **3.10 o superior**
-- Git, únicamente si deseas clonar el repositorio
+* **Python 3.10 o superior**
+* **Node.js 18 o superior** (para la interfaz web)
 
-### Clonar el proyecto
+---
+
+### 1. Interfaz Web (Next.js)
 
 ```bash
-git clone https://github.com/chacaejosue/body-index.git
-cd body-index
+# Instalar dependencias
+npm install
+
+# Iniciar entorno de desarrollo híbrido (Next.js + Python FastAPI)
+npm run dev
 ```
 
-### Ejecutar
+Abre en tu navegador [http://localhost:3000](http://localhost:3000) para acceder a la plataforma interactiva.
+
+---
+
+### 2. API REST (FastAPI)
+
+```bash
+# Instalar dependencias de Python
+pip install -r requirements.txt
+
+# Iniciar servidor API
+uvicorn api.index:app --reload --port 8000
+```
+
+Documentación interactiva disponible en:
+* **Swagger UI:** [http://localhost:8000/api/docs](http://localhost:8000/api/docs)
+* **ReDoc:** [http://localhost:8000/api/redoc](http://localhost:8000/api/redoc)
+
+---
+
+### 3. Aplicación de Consola (CLI)
 
 ```bash
 python src/analizador.py
 ```
 
-En algunos sistemas Unix/Linux:
+---
+
+### 4. Pruebas Unitarias
 
 ```bash
-python3 src/analizador.py
+pytest tests/ -v
 ```
 
 ---
 
-## Funcionalidades
+## Despliegue en Vercel & Supabase
 
-### Índice de Masa Corporal
+### Vercel (Recomendado)
+El proyecto cuenta con configuración unificada mediante `vercel.json` que compila el frontend Next.js y expone automáticamente los endpoints de Python en `/api` como funciones Serverless.
 
-El programa calcula el **IMC** utilizando el peso y la estatura proporcionados por el usuario.
-
-```text
-IMC = peso / estatura²
+```bash
+vercel
 ```
 
-El resultado se acompaña de una clasificación basada en los rangos implementados por la aplicación.
+### Supabase (Opcional para persistencia)
+Para habilitar guardado de historial o perfiles de usuario, define las siguientes variables en `.env.local`:
 
-### Tasa Metabólica Basal
-
-BodyIndex estima la **Tasa Metabólica Basal (TMB)** mediante la ecuación de **Mifflin-St Jeor**, utilizando datos como:
-
-- peso
-- estatura
-- edad
-- sexo
-
-La TMB representa una estimación de la energía que el organismo utiliza en reposo.
-
-### Gasto Energético Total
-
-A partir de la TMB y del nivel de actividad seleccionado, el programa estima el **Gasto Energético Total (GET)**.
-
-Esto permite obtener una aproximación del consumo energético diario asociado al nivel de actividad indicado por el usuario.
-
-### Validación de entradas
-
-Las entradas son verificadas antes de realizar los cálculos para reducir datos inválidos y errores durante la ejecución.
-
-El programa controla:
-
-- tipos de datos incorrectos
-- valores fuera de los rangos definidos
-- opciones no reconocidas
-- excepciones como `ValueError`
-
----
-
-## Ejemplo de ejecución
-
-Al finalizar los cálculos, BodyIndex genera un reporte directamente en la terminal:
-
-```text
-==================================================
-                 REPORTE FINAL
-==================================================
--> IMC Calculado           : 27.76
--> Clasificación           : Sobrepeso
--> Metabolismo Basal (TMB) : 1828.75 kcal
--> Gasto Diario Total (GET): 2834.56 kcal
-==================================================
+```env
+NEXT_PUBLIC_SUPABASE_URL="https://tu-proyecto.supabase.co"
+NEXT_PUBLIC_SUPABASE_ANON_KEY="tu-anon-key"
 ```
-
-Esto permite consultar los resultados de forma rápida sin depender de una interfaz gráfica o servicios externos.
-
----
-
-## Datos de entrada
-
-Actualmente la aplicación utiliza los siguientes parámetros:
-
-| Dato | Valores admitidos |
-|---|---|
-| Sexo | `M` o `F` |
-| Edad | `1` a `120` años |
-| Peso | `2` a `500` kg |
-| Estatura | `0.50` a `2.50` m |
-| Actividad física | Nivel `1` a `5` |
-
-La entrada correspondiente al sexo se procesa sin distinguir entre mayúsculas y minúsculas.
-
----
-
-## Estructura del proyecto
-
-```text
-body-index/
-├── assets/
-│   └── portada-body-index.svg
-│
-├── src/
-│   └── analizador.py
-│
-├── .gitignore
-├── LICENSE
-└── README.md
-```
-
-### `src/`
-
-Contiene la implementación principal de la aplicación.
-
-### `assets/`
-
-Almacena los recursos visuales utilizados en la documentación del proyecto.
-
----
-
-## Enfoque del proyecto
-
-BodyIndex fue desarrollado principalmente como ejercicio de programación para aplicar conceptos como:
-
-```text
-entrada de datos
-      ↓
-validación
-      ↓
-procesamiento
-      ↓
-cálculos
-      ↓
-formateo de resultados
-      ↓
-reporte en consola
-```
-
-El proyecto prioriza una implementación sencilla y comprensible antes que una arquitectura innecesariamente compleja.
-
----
-
-## Consideraciones
-
-Los resultados generados dependen completamente de los datos proporcionados por el usuario y de las fórmulas implementadas.
-
-Indicadores como el IMC tienen limitaciones y no describen por sí solos aspectos como:
-
-- porcentaje de grasa corporal
-- masa muscular
-- distribución de grasa
-- estado nutricional completo
-- condiciones médicas individuales
-
-De la misma forma, la TMB y el GET son **estimaciones**, no mediciones directas del metabolismo o del gasto energético real.
-
-> [!WARNING]
-> No utilices los resultados de BodyIndex para diagnóstico, tratamiento, prescripción dietética o decisiones médicas.
-
----
-
-## Roadmap
-
-Algunas mejoras previstas para futuras versiones:
-
-- [ ] Separar la lógica de cálculo de la interacción por consola.
-- [ ] Añadir pruebas automatizadas.
-- [ ] Ampliar las validaciones de entrada.
-- [ ] Mejorar la experiencia de usuario de la CLI.
-- [ ] Generar un reporte exportable con los resultados.
-- [ ] Crear una interfaz gráfica para visualizar las métricas.
-- [ ] Añadir gráficas y visualizaciones de los resultados.
-
----
-
-## Aprendizajes
-
-El desarrollo de BodyIndex permite practicar conceptos como:
-
-- funciones en Python
-- anotaciones de tipos
-- validación de entradas
-- manejo de excepciones
-- estructuras condicionales
-- cálculos y fórmulas
-- separación de responsabilidades
-- diseño de interfaces de consola
-- documentación técnica con Markdown
-- organización de un proyecto en GitHub
 
 ---
 
@@ -251,6 +185,4 @@ Desarrollado por **Josué Chacae**.
 
 ## Licencia
 
-Este proyecto se distribuye bajo la [Licencia MIT](./LICENSE).
-
-Puedes utilizarlo, modificarlo y adaptarlo respetando los términos establecidos en la licencia.
+Este proyecto se distribuye bajo la [Licencia MIT](./LICENSE). Puedes utilizarlo, modificarlo y distribuirlo libremente respetando los términos establecidos en la misma.
