@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2000 666" role="img" aria-labelledby="title description">
+  <title id="title">BodyIndex — Indicadores y estimaciones corporales en Python</title>
+  <desc id="description">Portada de BodyIndex con isotipo corporal, indicador circular de progreso y barras de nivel métrico sobre fondo púrpura.</desc>
+
+  <defs>
+    <linearGradient id="background" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#45204d" />
+      <stop offset="50%" stop-color="#7d3c80" />
+      <stop offset="100%" stop-color="#43204c" />
+    </linearGradient>
+    <radialGradient id="centerGlow" cx="50%" cy="42%" r="55%">
+      <stop offset="0%" stop-color="#a45ca1" stop-opacity=".28" />
+      <stop offset="100%" stop-color="#7d3c80" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <rect width="2000" height="666" rx="35" fill="url(#background)" />
+  <rect width="2000" height="666" rx="35" fill="url(#centerGlow)" />
+
+  <!-- Ondas decorativas de fondo -->
+  <g fill="none" stroke="#c18ac5" stroke-width="68" opacity=".26">
+    <path d="M -88 228 C 180 282 375 474 412 730" />
+    <path d="M 2088 95 C 1806 135 1625 352 1669 730" />
+  </g>
+
+  <!-- Puntos decorativos -->
+  <g>
+    <circle cx="191" cy="187" r="32" fill="#bd5b75" opacity=".8" />
+    <circle cx="228" cy="222" r="16" fill="#f9bf46" />
+    <circle cx="1794" cy="366" r="16" fill="#f9bf46" />
+    <circle cx="1841" cy="417" r="35" fill="#bd5b75" opacity=".8" />
+  </g>
+
+  <!-- Isotipo central -->
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Arco exterior blanco -->
+    <path d="M 926 330 A 120 120 0 0 1 988 116" stroke="#ffffff" stroke-width="14" />
+
+    <!-- Arcos exteriores amarillos (superior y segmento lateral) -->
+    <path d="M 1010 116 A 120 120 0 0 1 1102 170" stroke="#f9bf46" stroke-width="14" />
+    <path d="M 1111 188 A 120 120 0 0 1 1119 226" stroke="#f9bf46" stroke-width="14" />
+
+    <!-- Barras de nivel / señal métrica (contenidas dentro del círculo con línea base en y=330) -->
+    <path d="M 1045 330 V 296 M 1082 330 V 274 M 1119 330 V 244" stroke="#f9bf46" stroke-width="14" />
+
+    <!-- Cabeza del isotipo corporal -->
+    <circle cx="998" cy="193" r="17" stroke="#ffffff" stroke-width="11" />
+
+    <!-- Brazos y cuerpo -->
+    <path d="M 918 215 C 935 228 977 240 977 275 V 350" stroke="#ffffff" stroke-width="13" />
+    <path d="M 1078 215 C 1061 228 1019 240 1019 275 V 350" stroke="#ffffff" stroke-width="13" />
+    <path d="M 918 215 Q 998 250 1078 215" stroke="#ffffff" stroke-width="13" />
+  </g>
+
+  <!-- Textos de marca -->
+  <text x="1000" y="448" text-anchor="middle" fill="#ffffff" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif" font-size="76" font-weight="700" letter-spacing="-0.5">BodyIndex</text>
+  <text x="1000" y="514" text-anchor="middle" fill="#ffffff" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif" font-size="34" font-weight="400" opacity=".92">Indicadores y estimaciones corporales en Python</text>
+</svg>
