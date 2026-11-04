@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     template: "%s | BodyIndex",
   },
   description:
-    "Calculadora metabólica y antropométrica de alta precisión en Python y Next.js. Estima IMC, TMB (Mifflin, Katch-McArdle, Oxford), GET/TDEE y macronutrientes (ISSN) sin publicidad y con ficha descargable.",
+    "Calcula tu IMC, metabolismo basal, gasto calórico diario y macronutrientes con base en consensos OMS, Oxford e ISSN. Sin anuncios ni registros.",
   keywords: [
     "calculadora imc",
     "calculadora tmb",
@@ -75,9 +75,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "BodyIndex | Calculadora Metabólica Científica",
+    title: "BodyIndex | Calculadora Metabólica, IMC y Gasto Energético (TDEE)",
     description:
-      "Calcula tu IMC, TMB, GET y macronutrientes con los consensos científicos más recientes.",
+      "Calcula tu IMC, metabolismo basal, gasto calórico diario y macronutrientes con base en consensos OMS, Oxford e ISSN. Sin anuncios ni registros.",
     images: ["/og-image.png"],
   },
   robots: {
