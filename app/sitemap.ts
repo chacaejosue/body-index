@@ -1,12 +1,13 @@
 import type { MetadataRoute } from "next";
+import { getSiteUrl } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://bodyindex.app";
+  const baseUrl = getSiteUrl();
   const lastModified = new Date();
 
   return [
     {
-      url: baseUrl,
+      url: `${baseUrl}/`,
       lastModified,
       changeFrequency: "weekly",
       priority: 1.0,

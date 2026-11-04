@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
+import { getSiteUrl } from "@/lib/site";
 import "./globals.css";
 
 export const viewport: Viewport = {
@@ -12,7 +13,7 @@ export const viewport: Viewport = {
   ],
 };
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://bodyindex.app";
+const baseUrl = getSiteUrl();
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
