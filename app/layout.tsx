@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import "./globals.css";
 
 export const viewport: Viewport = {
@@ -11,8 +12,14 @@ export const viewport: Viewport = {
   ],
 };
 
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://bodyindex.app";
+
 export const metadata: Metadata = {
-  title: "BodyIndex | Calculadora Metabólica, IMC y Gasto Energético Científico",
+  metadataBase: new URL(baseUrl),
+  title: {
+    default: "BodyIndex | Calculadora Metabólica, IMC y Gasto Energético Científico",
+    template: "%s | BodyIndex",
+  },
   description:
     "Calculadora metabólica y antropométrica de alta precisión en Python y Next.js. Estima IMC, TMB (Mifflin, Katch-McArdle, Oxford), GET/TDEE y macronutrientes (ISSN) sin publicidad y con ficha descargable.",
   keywords: [
@@ -28,24 +35,65 @@ export const metadata: Metadata = {
     "porcentaje grasa rfm",
   ],
   authors: [{ name: "BodyIndex Team" }],
-  icons: {
-    icon: "/logo.svg",
-    apple: "/logo.svg",
+  creator: "BodyIndex Team",
+  publisher: "BodyIndex",
+  alternates: {
+    canonical: "/",
   },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon-48x48.png", sizes: "48x48", type: "image/png" },
+      { url: "/favicon-96x96.png", sizes: "96x96", type: "image/png" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+      { url: "/logo.svg", type: "image/svg+xml" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+    shortcut: "/favicon.ico",
+  },
+  manifest: "/manifest.webmanifest",
   openGraph: {
     title: "BodyIndex | Calculadora Metabólica Científica",
     description:
       "Calcula tu IMC, metabolismo basal, gasto calórico diario y macronutrientes con base en consensos OMS, Oxford e ISSN. Sin anuncios ni registros.",
-    type: "website",
-    locale: "es_ES",
+    url: baseUrl,
     siteName: "BodyIndex",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "BodyIndex - Calculadora Metabólica y Antropométrica Científica",
+      },
+    ],
+    locale: "es_ES",
+    type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: "BodyIndex | Calculadora Metabólica Científica",
     description:
       "Calcula tu IMC, TMB, GET y macronutrientes con los consensos científicos más recientes.",
+    images: ["/og-image.png"],
   },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  verification: {
+    google: "googleb5b7ccc5531c4c29",
+  },
+  category: "health",
 };
 
 const jsonLd = {
@@ -54,7 +102,8 @@ const jsonLd = {
     {
       "@type": "WebApplication",
       name: "BodyIndex",
-      url: "https://bodyindex.app",
+      url: baseUrl,
+      image: `${baseUrl}/og-image.png`,
       description:
         "Plataforma científica para estimaciones de IMC, TMB, GET y distribución de macronutrientes sin publicidad ni barreras de registro.",
       applicationCategory: "HealthApplication",
@@ -63,6 +112,11 @@ const jsonLd = {
         "@type": "Offer",
         price: "0",
         priceCurrency: "USD",
+      },
+      creator: {
+        "@type": "Organization",
+        name: "BodyIndex",
+        logo: `${baseUrl}/icon-512.png`,
       },
     },
     {
@@ -102,14 +156,37 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const gaId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+
   return (
     <html lang="es" suppressHydrationWarning className="dark">
       <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+        {gaId && (
+          <>
+            <Script
+              strategy="afterInteractive"
+              src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
+            />
+            <Script
+              id="google-analytics"
+              strategy="afterInteractive"
+              dangerouslySetInnerHTML={{
+                __html: `
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+                  gtag('config', '${gaId}', {
+                    page_path: window.location.pathname,
+                  });
+                `,
+              }}
+            />
+          </>
+        )}
       </head>
       <body className="antialiased selection:bg-amber-500/20 selection:text-amber-500">
         {children}
