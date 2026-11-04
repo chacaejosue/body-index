@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   UserProfile,
   SexoBiologico,
@@ -13,6 +13,123 @@ import { SlidersHorizontal, ChevronDown } from "lucide-react";
 interface Props {
   profile: UserProfile;
   onChange: (profile: UserProfile) => void;
+}
+
+interface NumberInputProps {
+  value: number | undefined;
+  onChange: (val: number | undefined) => void;
+  min: number;
+  max: number;
+  isDecimal?: boolean;
+  unit: string;
+  placeholder?: string;
+  className?: string;
+}
+
+function NumberInput({
+  value,
+  onChange,
+  min,
+  max,
+  isDecimal = false,
+  unit,
+  placeholder,
+  className = "w-10",
+}: NumberInputProps) {
+  const [text, setText] = useState<string>(() => (value !== undefined ? String(value) : ""));
+  const [isFocused, setIsFocused] = useState(false);
+
+  useEffect(() => {
+    if (!isFocused) {
+      setText(value !== undefined ? String(value) : "");
+    }
+  }, [value, isFocused]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Normalizar coma a punto inmediatamente para permitir tecleo numérico transparente
+    let raw = e.target.value.replace(",", ".");
+
+    // Permitir campo vacío mientras el usuario borra todo para reescribir (ej. de 40 a 90)
+    if (raw.trim() === "") {
+      setText("");
+      if (placeholder) {
+        onChange(undefined);
+      }
+      return;
+    }
+
+    // Filtrar caracteres no numéricos
+    if (isDecimal) {
+      if (!/^\d*\.?\d*$/.test(raw)) return;
+    } else {
+      if (!/^\d*$/.test(raw)) return;
+    }
+
+    setText(raw);
+
+    // Si termina en punto (ej. "84."), no parsear todavía para permitir escribir el decimal
+    if (raw.endsWith(".")) return;
+
+    const num = isDecimal ? parseFloat(raw) : parseInt(raw, 10);
+    if (!isNaN(num)) {
+      // Actualizar en tiempo real si el valor es válido y está dentro del rango
+      if (num >= min && num <= max) {
+        onChange(num);
+      }
+    }
+  };
+
+  const handleBlur = () => {
+    setIsFocused(false);
+    if (text.trim() === "") {
+      if (placeholder) {
+        onChange(undefined);
+        setText("");
+      } else {
+        const fallback = value ?? min;
+        onChange(fallback);
+        setText(String(fallback));
+      }
+      return;
+    }
+
+    const num = isDecimal ? parseFloat(text) : parseInt(text, 10);
+    if (isNaN(num)) {
+      const fallback = value ?? min;
+      onChange(fallback);
+      setText(String(fallback));
+      return;
+    }
+
+    // Al salir del campo se ajusta suavemente a los límites permitidos
+    const clamped = Math.min(max, Math.max(min, num));
+    const finalVal = isDecimal ? Number(clamped.toFixed(1)) : Math.round(clamped);
+    onChange(finalVal);
+    setText(String(finalVal));
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      (e.target as HTMLInputElement).blur();
+    }
+  };
+
+  return (
+    <div className="flex items-center gap-1 px-1">
+      <input
+        type="text"
+        inputMode="decimal"
+        value={text}
+        placeholder={placeholder}
+        onFocus={() => setIsFocused(true)}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        onKeyDown={handleKeyDown}
+        className={`${className} text-center bg-transparent text-xs font-semibold text-zinc-900 dark:text-zinc-100 font-mono focus:outline-none`}
+      />
+      <span className="text-[10px] text-zinc-400 dark:text-zinc-500 font-medium">{unit}</span>
+    </div>
+  );
 }
 
 export function CalculatorForm({ profile, onChange }: Props) {
@@ -140,20 +257,14 @@ export function CalculatorForm({ profile, onChange }: Props) {
               >
                 −
               </button>
-              <div className="flex items-center gap-1 px-1">
-                <input
-                  type="number"
-                  min={14}
-                  max={95}
-                  value={profile.edad}
-                  onChange={(e) => {
-                    const val = parseInt(e.target.value);
-                    if (!isNaN(val)) update("edad", Math.min(95, Math.max(14, val)));
-                  }}
-                  className="w-8 text-center bg-transparent text-xs font-semibold text-zinc-900 dark:text-zinc-100 font-mono focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                />
-                <span className="text-[10px] text-zinc-400 dark:text-zinc-500 font-medium">años</span>
-              </div>
+              <NumberInput
+                value={profile.edad}
+                onChange={(val) => val !== undefined && update("edad", val)}
+                min={14}
+                max={95}
+                unit="años"
+                className="w-9"
+              />
               <button
                 type="button"
                 onClick={() => update("edad", Math.min(95, profile.edad + 1))}
@@ -188,21 +299,15 @@ export function CalculatorForm({ profile, onChange }: Props) {
               >
                 −
               </button>
-              <div className="flex items-center gap-1 px-1">
-                <input
-                  type="number"
-                  min={30}
-                  max={250}
-                  step={0.1}
-                  value={profile.peso_kg}
-                  onChange={(e) => {
-                    const val = parseFloat(e.target.value);
-                    if (!isNaN(val)) update("peso_kg", Math.min(250, Math.max(30, val)));
-                  }}
-                  className="w-12 text-center bg-transparent text-xs font-semibold text-zinc-900 dark:text-zinc-100 font-mono focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                />
-                <span className="text-[10px] text-zinc-400 dark:text-zinc-500 font-medium">kg</span>
-              </div>
+              <NumberInput
+                value={profile.peso_kg}
+                onChange={(val) => val !== undefined && update("peso_kg", val)}
+                min={30}
+                max={250}
+                isDecimal={true}
+                unit="kg"
+                className="w-12"
+              />
               <button
                 type="button"
                 onClick={() => update("peso_kg", Math.min(250, Number((profile.peso_kg + 1).toFixed(1))))}
@@ -237,21 +342,14 @@ export function CalculatorForm({ profile, onChange }: Props) {
               >
                 −
               </button>
-              <div className="flex items-center gap-1 px-1">
-                <input
-                  type="number"
-                  min={130}
-                  max={230}
-                  step={1}
-                  value={Math.round(profile.estatura_m * 100)}
-                  onChange={(e) => {
-                    const val = parseInt(e.target.value);
-                    if (!isNaN(val)) update("estatura_m", Math.min(2.3, Math.max(1.3, val / 100)));
-                  }}
-                  className="w-10 text-center bg-transparent text-xs font-semibold text-zinc-900 dark:text-zinc-100 font-mono focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                />
-                <span className="text-[10px] text-zinc-400 dark:text-zinc-500 font-medium">cm</span>
-              </div>
+              <NumberInput
+                value={Math.round(profile.estatura_m * 100)}
+                onChange={(val) => val !== undefined && update("estatura_m", Number((val / 100).toFixed(2)))}
+                min={130}
+                max={230}
+                unit="cm"
+                className="w-11"
+              />
               <button
                 type="button"
                 onClick={() => update("estatura_m", Math.min(2.3, Number((profile.estatura_m + 0.01).toFixed(2))))}
@@ -393,21 +491,15 @@ export function CalculatorForm({ profile, onChange }: Props) {
                   >
                     −
                   </button>
-                  <div className="flex items-center gap-1 px-1">
-                    <input
-                      type="number"
-                      min={50}
-                      max={160}
-                      value={profile.cintura_cm || ""}
-                      placeholder="Opcional"
-                      onChange={(e) => {
-                        const val = parseInt(e.target.value);
-                        update("cintura_cm", isNaN(val) ? undefined : val);
-                      }}
-                      className="w-14 text-center bg-transparent text-xs font-semibold text-zinc-900 dark:text-zinc-100 font-mono focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                    />
-                    <span className="text-[10px] text-zinc-400 dark:text-zinc-500">cm</span>
-                  </div>
+                  <NumberInput
+                    value={profile.cintura_cm}
+                    onChange={(val) => update("cintura_cm", val)}
+                    min={50}
+                    max={160}
+                    unit="cm"
+                    placeholder="Opcional"
+                    className="w-14"
+                  />
                   <button
                     type="button"
                     onClick={() => update("cintura_cm", Math.min(160, (profile.cintura_cm || 80) + 1))}
@@ -451,22 +543,16 @@ export function CalculatorForm({ profile, onChange }: Props) {
                   >
                     −
                   </button>
-                  <div className="flex items-center gap-1 px-1">
-                    <input
-                      type="number"
-                      min={4}
-                      max={55}
-                      step={0.1}
-                      value={profile.porcentaje_grasa || ""}
-                      placeholder="Opcional"
-                      onChange={(e) => {
-                        const val = parseFloat(e.target.value);
-                        update("porcentaje_grasa", isNaN(val) ? undefined : val);
-                      }}
-                      className="w-14 text-center bg-transparent text-xs font-semibold text-zinc-900 dark:text-zinc-100 font-mono focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                    />
-                    <span className="text-[10px] text-zinc-400 dark:text-zinc-500">%</span>
-                  </div>
+                  <NumberInput
+                    value={profile.porcentaje_grasa}
+                    onChange={(val) => update("porcentaje_grasa", val)}
+                    min={4}
+                    max={55}
+                    isDecimal={true}
+                    unit="%"
+                    placeholder="Opcional"
+                    className="w-14"
+                  />
                   <button
                     type="button"
                     onClick={() => update("porcentaje_grasa", Math.min(55, Number(((profile.porcentaje_grasa || 15) + 0.5).toFixed(1))))}
