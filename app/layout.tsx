@@ -18,7 +18,7 @@ const baseUrl = getSiteUrl();
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: "BodyIndex | Calculadora Metabólica, IMC y Gasto Energético Científico",
+    default: "BodyIndex | Calculadora Metabólica, IMC y Gasto Energético (TDEE)",
     template: "%s | BodyIndex",
   },
   description:
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
   },
   manifest: "/manifest.webmanifest",
   openGraph: {
-    title: "BodyIndex | Calculadora Metabólica Científica",
+    title: "BodyIndex | Calculadora Metabólica, IMC y Gasto Energético (TDEE)",
     description:
       "Calcula tu IMC, metabolismo basal, gasto calórico diario y macronutrientes con base en consensos OMS, Oxford e ISSN. Sin anuncios ni registros.",
     url: baseUrl,
@@ -67,7 +67,7 @@ export const metadata: Metadata = {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "BodyIndex - Calculadora Metabólica y Antropométrica Científica",
+        alt: "BodyIndex - Calculadora Metabólica y Antropométrica de Precisión",
       },
     ],
     locale: "es_ES",
